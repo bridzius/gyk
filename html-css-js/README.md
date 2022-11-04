@@ -10,6 +10,9 @@ HTML elementai ir jų aprašymai - https://www.w3schools.com/tags/default.asp
 
 - CSS pradmenys - https://web.dev/learn/css/
 - CSS advanced - http://css-tricks.com
+- CSS selector žaidimas - https://flukeout.github.io/
+- CSS grid žaidimas - https://cssgridgarden.com/
+- CSS flexbox žaidimas - https://flexboxfroggy.com/
 - CSS paskaitos pavyzdys - https://stackblitz.com/edit/gyk-css?file=index.html (atidatyti per Chrome/Edge)
 
 ### Selectoriai
@@ -25,8 +28,11 @@ h1 { /* selectinami 'h1' tag'ai */
 ```
 h1 {
   background: red;
+  font: italic 500 20px 'Courier New', Courier, monospace;
+  /* shorthand - tas pats, kas apačioje */
   font-family: 'Courier New', Courier, monospace;
   font-weight: 500;
+  font-size: 20px;
   font-style: italic;
 }
 ```
