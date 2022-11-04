@@ -96,5 +96,23 @@ Nusiunčia atnaujinimus (commit'us) iš lokalios repozitorijos į serverį. Naud
 
 - `git push`
 
-Toliau:
-`git rebase` ir `git merge`
+## Operacijos su branch'ais
+
+Branch'us labai lengva tiesiog lakyti vardiniais commit'ais. Labiausiai paplitęs darbo su git būdas yra: sukurti naują branch (tarkim, `feature`) iš `main` (pagrindinio), pakeisti kodą, kurį norite pakeisti ir tada suintegruoti `feature` pakeitimus atgal į `main`. git tai leidžia padaryti dviem būdais - `merge` ir `rebase`.
+
+### git merge
+
+`merge` sujungia pagrindinį ir darbinius branch'us bei sukuria "merge commit", jei kyla konfliktų kode.
+![git merge pavyzdys](https://bridzius.s3.eu-north-1.amazonaws.com/git-merge.svg "git merge")
+Naudojimas:
+
+- `git merge main feature` - suintegruos ("sumergins") `feature` branch commit'us į `main`.
+
+### git rebase
+
+`rebase`, skirtingai nei `merge` bando tiesiog pakartoti commitus esančius `feature` ant `main`, taip išlaikant tiesią commit liniją ir vengiant susijungimo taškų bei merge commit.
+
+![git rebase pavyzdys](https://bridzius.s3.eu-north-1.amazonaws.com/git-rebase.svg "git rebase")
+Naudojimas:
+
+- `git checkout feature && git rebase main` - perkels visus `feature` branch commit'us ant main. Vienas dažnai minimas `rebase` minusas - reikalingas istorijos perrašymas `git push -f` pagalba, nes `feature` branch staiga tampa naująja `main` branch, taigi yra papildomos rizikos.
