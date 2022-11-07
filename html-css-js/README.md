@@ -48,3 +48,11 @@ Pavyzdžiui `main > h1` bus labiau prioritizuotas, nei `h1`. Taip pat ir `h1.kla
 4. Stilius pagal .klasę.
 5. Stilius pagal <tagą>.
 6. Standartiniai naršyklės stiliai.
+
+## Javascript
+
+Nuorodos susipažinti su Javascript:
+
+- https://javascript.info/
+- https://developer.mozilla.org/en-US/docs/Learn/JavaScript
+- https://www.freecodecamp.org/news/learn-javascript-free-js-courses-for-beginners/
