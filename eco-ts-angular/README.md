@@ -18,7 +18,7 @@
   - `boolean` - true
 - Abstract - abstraktūs tipai, apibrėžiantys papildomas Javascript reikšmes:
   - `any` - "bet koks" tipas, leidžiantis apeiti Typescript tipų tikrinimą.
-  - `unknown` - šiuo metu nežinomas tipas. Naudojant šį tipą, reikės jį castinti (žr [Castinimas](#castinimas).
+  - `unknown` - šiuo metu nežinomas tipas. Naudojant šį tipą, reikės jį castinti (žr [Castinimas](#castinimas)).
   - `object` - bendrinis objekto tipas.
   - `null` - aprašo `null` objektą. Tai yra reikšmė, kuri specifiškai nurodyta kaip neegistuojanti.
   - `undefined` - kintamojo reikšmė nėra priskirta.
@@ -69,7 +69,7 @@ Pagalbiniai (utility) tipai naudojami kartu su kitais tipais jų pakeitimui:
 - `Partial<Type>` - Visus objekto tipo/interface parametrus padaro "Optional" - `{param?: value}`.
 - `Required<Type>` - Visus objekto tipo/interface parametrus padaro "Required".
 
-  Daugiau info apie utility tipus: https://www.typescriptlang.org/docs/handbook/utility-types.html
+Daugiau info apie utility tipus: https://www.typescriptlang.org/docs/handbook/utility-types.html
 
 ### Castinimas
 
@@ -144,7 +144,7 @@ type ZmogausVardas = {
     vardas: string //Pasirinktas tik vardas
 }
 */
-----
+------
 //Klasė gauna tipą ir gali būti naudojama kaip tipas.
 class Zmogus {
     vardas: string;
@@ -159,12 +159,12 @@ const kitasZmogus: Zmogus = {
     vardas: "vardas",
     pavarde: "pavarde",
 }
-----
+------
 //Funkcijos gali turėti ir input ir return tipus
 function run(input: string /* input tipas */): string /* return tipas */ {
     return input;
 }
-----
+------
 //Generic tipai leidžia keisti objekto parametrus
 //Veikia su type ir su funkcijomis
 type Zmogus<Gyvunas> = {
