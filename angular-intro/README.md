@@ -6,9 +6,40 @@ Komponentai - pagrindiniai Angular "statybiniai" elementai. Angular - "component
 
 Generuojama `npx ng generate component <vardas>`
 
+Pagrindinės sudėtinės dalys:
+
+- Template
+- Component
+- Style
+
+Pažymima `@Component` anotacija.
+
+```ts
+@Component({
+    selector: 'app-component' //CSS Selektorius
+    templateUrl: <template failas>,
+    styleUrls: [ <stiliaus failas> ],
+})
+```
+
+`@Input`
+`@Output`
+
 ## Directives
 
-Angular komponentai, kurie prideda papildomo funkcionalumo jau egzistuojantiems komponentams. Standartiškai skirstomos į tris tipus:
+Angular elementai, kurie prideda papildomo funkcionalumo jau egzistuojantiems komponentams.
+Pažymima `@Directive` anotacija.
+
+```ts
+@Directive({
+    selector: '[appDirektyva]' //CSS selectorius
+})
+```
+
+`@HostListener`
+`@Input`
+
+Standartiškai skirstomos į tris tipus:
 
 1. Komponentai - komponentai irgi yra direktyvos, kurios turi HTML template.
 2. Atributų direktyvos - pakeičia tam tikro elemento veikimą arba išvaizdą.
