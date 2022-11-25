@@ -5,6 +5,7 @@
 - `.angular/` - cache direktorija, kurią galima ignoruoti.
 - `.vscode/` - nustatymai VSCode editoriui
 - `node_modules/` - npm dependency direktorija, kurioje saugomos visos bibliotekos, kurias naudoja jūsų projektas.
+- `dist/` - direktorija, kurioje randamas į serverį paruoštas dėti serveris. Sukuriama `ng build` komandos.
 - `src` - kodo ir implentacijos direktorija, kurioje yra darbiniai failai.
   - `app` - Angular aplikacijos kodas
     - `app-routing.module.ts` - Angular routing konfigūracija, skirta naviguoti tarp skirtingų puslapių.
