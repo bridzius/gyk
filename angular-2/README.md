@@ -115,18 +115,130 @@ sleptiVaikus() {
 
 Dependency Injection yra principas, kuris leidžia Angular elementams (komponentams/direktyvoms/servisams) naudoti servisus ir kitus elementus savyje. Tai leidžia lengvai pernaudoti funkcionalumą ir turėti paprastus komponentus, o logiką - servisuose.
 
+Angular naudoja "type-based" Dependency Injection per konstruktorius. Tai reiškia, kad norint pasinaudoti DI, reikia naudoti savo norimą dependency kaip tipą konstruktoriuje, kur norėsite jį naudoti. Pvz, norint panaudoti ` KazkoksService``TevasComponent `viduje:
+
+```ts
+//tevas.component.ts
+import { Component } from "@angular/core";
+import { KazkoksService } from "kazkoks.service";
+@Component({
+  //...
+})
+class TevasComponent {
+  constructor(private service: KazkoksService) {
+    this.service.metodas(); //galime naudoti metodus iš KazkoksService.
+  }
+}
+```
+
 ### Servisai
 
 Generuojami `npx ng generate service <vardas>`, Angular servisai yra paprastos Typescript klasės, su `@Injectable` anotacija, kuriose galima rašyti logiką ir ta logika dalintis tarp kitų Angular elementų.
 
+### Dependency Injection principai
+
+Angular "supranta" tris lygius dependency injection:
+
+1. Aplikacijos lygio (Singleton)
+2. Modulio lygio
+3. Komponento lygio
+
+### 1. Aplikacijos lygio DI
+
+Standartinis DI, generuotuose servisuose. Šis DI metodas tinkamas 99% atvejų ir tik retai kada reikia kitų dviejų. Aprašomas:
+
+```ts
+//kazkoks.service.ts
+import { Injectable } from "@angular/core";
+@Injectable({ providedIn: "root" }); //Aplikacijos lygio DI
+class KazkoksService {}
+```
+
+Sukuria vieną servisą visam aplikacijos kontekstui. Tai reiškia, kad tas pats serviso bus naudojamas visuose komponentuose, kurie jį importuos. Taip pat, kad jo reikšmės yra matomos visų komponentų.
+
+### 2. Modulio lygio DI
+
+Servisą galima "pririšti" prie tam tikro modulio, jei norima, kad servisas būtų sukurtas tik to modulio lygmenyje ir būtų reikalinga importuoti modulį, norint naudoti servisą. Taip galima tą patį servisą aprašyti keliuose skirtinguose moduliuose, jei norima šiek tiek pakeisti jo veikimą. Aprašomas pačiame servise:
+
+```ts
+//kazkoks.service.ts
+import { Injectable } from "@angular/core";
+import { KazkoksModule } from "./kazkoks.module";
+@Injectable({ providedIn: KazkoksModule }); //Modulio lygio DI
+class KazkoksService {}
+```
+
+arba modulio `providers` dalyje:
+
+```ts
+//kazkoks.module.ts
+import { NgModule } from "@angular/core";
+import { KazkoksService } from "./kazkoks.service";
+@NgModule({
+  //...
+  providers: [KazkoksService],
+})
+class KazkoksModule {}
+```
+
+### 3. Komponento lygio DI
+
+Servisą taip pat galima sukurti atskirai kiekvienam komponentui, kur jis reikalingas. Tai patogu, jei komponentai daug kartų naudojami ir pakankamai komplikuoti - tarkim, ilgos formos - ir reikalauja daug logikos, kurią galima pernaudoti, bet nereikia dalintis. Aprašomi komponento anotacijoje:
+
+```ts
+//tevas.component.ts
+import { Component } from "@angular/core";
+import { KazkoksService } from "./kazkoks.service";
+@Component({
+  //...
+  providers: [KazkoksService],
+})
+class TevasComponent {}
+```
+
+### Pavyzdys
+
+Perkelkime vardus, naudojamus `TevasComponent` į `VardaiService`. Tai leis komponentui nesirūpinti iš kur vardai ateina ir galėsime veliau juos gauti kad ir iš serverio.
+
+1. Sugeneruojame servisą - `npx ng generate service vardai`
+2. Perkeliame vardus iš komponento į servisą (komponente paliekame tuščią masyvą) ir sukuriame metodą juos gauti
+
+```ts
+//vardai.service.ts
+export class VardaiService {
+  private vaikai = ["Petras", "Ona", "Leonardokadijus", "Skaivelina"];
+
+  gaukVardus() {
+    return this.vaikai;
+  }
+}
+```
+
+3. Naudojame servisą `TevasComponent` viduje ir gauname vardus
+
+```ts
+//tevas.component.ts
+import { VardaiService } from "../vardai.service";
+//...
+export class TevasComponent {
+    rodytiVaikus = true;
+    vaikai: string[] = [];
+    constructor(private vardaiService: VardaiService) {
+        this.vaikai = this.vardaiService.gaukVardus();
+    }
+//...
+```
+
+### Rezultatas - https://github.com/bridzius/gyk-ng-intro/tree/service #service branch.
+
 ## Observables - https://angular.io/guide/observables
 
+TODO: Observables
+
 ## HttpClient - https://angular.io/guide/http
+
+TODO: HttpClient with Meteo
 
 ## Routing - https://angular.io/guide/routing-overview
 
 ## Namų darbai
-
-```
-
-```
