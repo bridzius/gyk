@@ -62,7 +62,7 @@ Tampa
 
 **SVARBU** - Negalima naudoti dviejų struktūrinių direktyvų ant vieno HTML elemento.
 
-### Pavyzdys:
+### Pavyzdys
 
 Pagal https://github.com/bridzius/gyk-ng-intro
 
@@ -233,11 +233,169 @@ export class TevasComponent {
 
 ## Observables - https://angular.io/guide/observables
 
-TODO: Observables
+### Aprašymas
+
+Norėdami supaprastinti Angular programavimą bei sujungti sinchroninio (veiksmai vyksta vienas po kito) bei asinchroninio (veiksmų seka nelinijinė) programavimo principus, kūrėjai nusprendė daugeliai Angular konceptų naudoti `Observables`. Tai yra nestandartinis Javascript objektas, kilęs iš "Reactive" (nemaišyti su React) programavimo, ir galintis parodyti daug reikšmių per laiką. `Observable` galima įsivaizduoti kaip vamzdį, kuris priima reikšmes iš šaltinio (source) ir perduoda klausytojams (listeners). Priimti galima ir vieną ir daug reikšmių, bet jos bus perduotos visiems klausytojams.
+
+### Naudojimas
+
+Angular `Observables` naudojami iš `rxjs` bibliotekos (https://rxjs.dev/) - `import { Observable } from "rxjs";` Dauguma Angular servisų turi galimybę gražinti Observable, tačiau jį galima sukurti ir patiems. Observable kuriame per `Observable` konstruktorių ir jam paduodame funkciją, kurioje yra reikšmės, atiduodamos klausytojams:
+
+```ts
+import { Observable } from "rxjs";
+const obs = new Observable((sub) => {
+  sub.next(1); //klausytojai (listeners) gaus reikšmę '1'
+});
+```
+
+Observable klausymas prasideda naudojant `.subscribe()` metodą. _**SVARBU**: Dažniausiai Observables pradeda veikti tik, kai kas nors jų klausosi._ Pamirštas `subscribe` - viena iš dažniausių su `Observable` sutinkamų problemų. Jei norėtume gauti reikšmes iš mūsų prieš tai sukurto observable `obs` - tereikia subscribe'inti:
+
+```ts
+obs.subscribe((val) => console.log(val)); //Gautume '1'
+```
+
+### Operatoriai
+
+Taip pat Observables leidžia keisti reikšmę prieš ją perduodant klausytojams naudojant `pipe()` metodą. `pipe()` priima funkcijas, vadinamas "operatoriais", kurios leidžia modifikuoti observable reikšmę. Pavyzdžiui galėtume pakeisti `obs` reikšmę su `map` operatoriumi taip:
+
+```ts
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+const obs = new Observable((sub) => {
+  sub.next(1); //klausytojai (listeners) gaus reikšmę '1'
+});
+obs.pipe(map((val) => `Numeris ${val}`)).subscribe((val) => console.log(val)); //Gautume 'Numeris 1'
+```
+
+Operatorius galima naudoti ne vien reikšmėms keisti, bet ir observable kūrimui arba kelių observable kombinavimui - daugiau apie juos skaitykite https://rxjs.dev/guide/operators#categories-of-operators
+
+### AsyncPipe
+
+Naudojant daug observablų, kodas gali greitai užsiteršti bereikalingais `subscribe()` kvietimais. Taip pat būtina nepamiršti, kad dažniausiai reikia kviesti `unsubscribe()`, kai observable reikšmių mums nebereikia (pavyzdžiui klientas nuėjo į kitą puslapį ir jam to komponento nebereikia). Tokiems atvejams palengvinti - Angular turi `AsyncPipe`. `AsyncPipe` yra Angular Pipe (https://angular.io/guide/pipes), t.y HTML naudojamas pagalbinis metodas. Jo padedami, galime pačiame HTML išgauti observable reikšmes, nenaudodami `subscribe/unsubscribe`. Tai sumažina kodo, o taip pat ir klaidų, kiekį.
+
+`obs` naudokime kaip komponento parametrą.
+
+```ts
+//example.component.ts
+import { Component } from "@angular/core";
+import { Observable } from "rxjs";
+@Component({
+  //...
+})
+class ExampleComponent {
+  obs = new Observable((sub) => {
+    sub.next(1); //klausytojai (listeners) gaus reikšmę '1'
+  });
+}
+```
+
+Pridėkime `async` (AsyncPipe) jo rodymui HTML. Pastebėkite, kad niekur nenaudojame `subscribe()`:
+
+```html
+<!-- example.component.html -->
+{{obs | async}}
+<!-- rodys 1 -->
+```
 
 ## HttpClient - https://angular.io/guide/http
 
-TODO: HttpClient with Meteo
+### Aprašymas
+
+Dažniausiai komunikacijos tarp serverio ir kliento (web aplikacijos) būdas - HTTP kvietimai. HTTP protokolas leidžia pakankamai paprastai keistis informacija. Angular turi standartinį servisą, skirtą HTTP komunikacijai - `HttpClient`. Jis leidžia naudoti standartinius HTTP metodus dirbti su išoriniais API. Kadangi komunikacija asinchroninė - visi `HttpClient` naudojami metodai (`get/post/put/delete/patch/t.t`) grąžina `Observable`, kuris perduos iš serverio atkeliavusią informaciją.
+
+### Pavyzdys
+
+Pakeiskime savo `VardaiService` vardus vardais, gaunamais iš API (https://vardai.fdp.workers.dev). **SVARBU**: Įsitikinkite, kad jūsų puslapis pasiekiamas per `http://localhost:4200`:
+
+1. Pridedame `HttpClientModule` prie savo Angular Module. Tai mum leis naudoti `HttpClient`:
+
+```ts
+//app.module.ts
+import { HttpClientModule } from "@angular/common/http";
+@NgModule({
+//...
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+})
+//...
+```
+
+2. Importuojame `HttpClient` savo servise:
+
+```ts
+//vardai.service.ts
+import { HttpClient } from "@angular/common/http";
+//...
+export class VardaiService {
+  constructor(private http: HttpClient) {}
+  //...
+}
+```
+
+3. Naudojame GET HTTP metodą vardams gauti `gaukVardus` funkcijoje:
+
+```ts
+export class VardaiService {
+  constructor(private http: HttpClient) {}
+
+  gaukVardus(): Observable<any> {
+    return this.http.get("https://vardai.fdp.workers.dev");
+  }
+}
+```
+
+4. Pakeičiame `this.vaikai` reikšme typescript kode, kadangi tai dabar observable:
+
+```ts
+//tevas.component.ts
+export class TevasComponent {
+  //...
+  vaikai: Observable<any>; // Pakeitėme iš string[]
+  constructor(private vardaiService: VardaiService) {
+    this.vaikai = this.vardaiService.gaukVardus();
+  }
+  //...
+}
+```
+
+5. Naudojame `AsyncPipe` HTML'e, kad gautume reikšmes. Pipe galime kombinuoti su bet kuria reikšme. Šiuo atveju su iteratoriumi `*ngFor`:
+
+```html
+<!-- tevas.component.html -->
+<app-vaikas
+  (paspaudimas)="keisti()"
+  vardas="{{ vaikas }}"
+  *ngFor="let vaikas of vaikai | async"
+>
+</app-vaikas>
+```
+
+6. HTML matome '[object Object] yra vaikas.'. Atsidarę 'Network Inspector' naršyklėje pamatysite, kad API gražina kitokią struktūra, nei mes prieš tai naudojome komponente. Mes tikimės paprastų `string`, o API gražina `{ "name": string }`. Panaudokime `map()``operatorių  
+   servise gauti šias reikšmes:
+
+```ts
+//...
+import { map } from "rxjs/operators";
+export class VardaiService {
+  constructor(private http: HttpClient) {}
+
+  gaukVardus(): Observable<any> {
+    return (
+      this.http
+        //paduodame generic, kad Typescript žinotų, kokio atsakymo tikimės
+        .get<{ name: string }[]>("https://vardai.fdp.workers.dev")
+        //Naudojame map() observable reikšmei
+        .pipe(
+          map((zmones) => {
+            //Naudojant Array.map() iš žmonių masyvo gauname tik vardų masyvą
+            return zmones.map((zmogus) => zmogus.name);
+          })
+        )
+    );
+  }
+}
+```
+
+### Rezultatas - https://github.com/bridzius/gyk-ng-intro/tree/http #http branch.
 
 ## Routing - https://angular.io/guide/routing-overview
 
