@@ -9,3 +9,4 @@ Turinys:
 - Frontend #2 `typescript/js ecosystem/angular` - [/eco-ts-angular/README.md](./eco-ts-angular/)
 - Frontend #3 `angular intro - workspace/components` - [/angular-intro/README.md](./angular-intro/)
 - Frontend #4 `angular directives/services/DI/observables/http` - [/angular-2/README.md](./angular-2/)
+- Frontend #5 `angular forms` - [/angular-3/README.md](./angular-3/)
