@@ -6,12 +6,11 @@ HTML forma aprašoma `<form>` elementu.
 
 ## Formos
 
-Angular palaiko trijų tipų formas:
+Angular palaiko dviejų tipų formas:
 1. 'Template-driven' formas.
-2. 'Untyped Reactive' formas. (Standartas iki Angular 14)
-3. 'Typed Reactive' formas. (Standartas nuo Angular 14)
+3. 'Reactive' formas. (Typed - Standartas nuo Angular 14 | Untyped - Standartas iki Angular 14)
 
-### Template driven formos
+### Template driven formos - https://angular.io/guide/forms
 Naudojama pridedant prie modulio `FormsModule`.
 ```ts
 import { FormsModule } from "@angular/forms";
@@ -22,7 +21,7 @@ import { FormsModule } from "@angular/forms";
 })
 ```
 
-### Untyped Reactive formos
+### Reactive formos - https://angular.io/guide/reactive-forms
 Template-driven formos yra labai lanksčios, tačiau jų prisirišimas prie HTML template reiškia, kad Typescript komponento kode sunku suprasti, kas vyksta.
 Reactive formos sprendžia šią problemą, leisdamos visą formą, kartu su validatoriais ir duomenų modeliu sukurti Typescript kode ir HTML tik "prijungti" elementus prie formos modelio.
 
@@ -35,5 +34,3 @@ import { ReactiveFormsModule } from "@angular/forms";
   imports: [ReactiveFormsModule],
 })
 ```
-### Typed Reactive formos
-Iki Angular 14, Reactive formos buvo "Untyped". Pati forma neturėjo apibrėžto duomenų modelio, taigi tikrinant bei validuojant duomenis reikėjo rašyti papildomą kodą, kuris "užtikrintų", kad duomenys egzistuoja.
