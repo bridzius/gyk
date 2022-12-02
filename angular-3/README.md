@@ -21,6 +21,9 @@ import { FormsModule } from "@angular/forms";
 })
 ```
 
+#### ngModel
+#### HTML Validatoriai
+
 ### Reactive formos - https://angular.io/guide/reactive-forms
 Template-driven formos yra labai lanksčios, tačiau jų prisirišimas prie HTML template reiškia, kad Typescript komponento kode sunku suprasti, kas vyksta.
 Reactive formos sprendžia šią problemą, leisdamos visą formą, kartu su validatoriais ir duomenų modeliu sukurti Typescript kode ir HTML tik "prijungti" elementus prie formos modelio.
@@ -34,3 +37,6 @@ import { ReactiveFormsModule } from "@angular/forms";
   imports: [ReactiveFormsModule],
 })
 ```
+
+#### FormBuilder - https://angular.io/guide/reactive-forms#using-the-formbuilder-service-to-generate-controls
+#### Validators - https://angular.io/guide/form-validation#validating-input-in-reactive-forms
