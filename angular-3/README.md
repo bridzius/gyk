@@ -12,5 +12,33 @@ Angular palaiko trijų tipų formas:
 3. 'Typed Reactive' formas. (Standartas nuo Angular 14)
 
 ### Template driven formos
+Naudojama pridedant prie modulio `FormsModule`.
+```ts
+import { FormsModule } from "@angular/forms";
+//...
+@NgModule({
+//...
+  imports: [FormsModule],
+})
+```
 
 ### Untyped Reactive formos
+Naudojama pridedant prie modulio `ReactiveFormsModule`.
+```ts
+import { ReactiveFormsModule } from "@angular/forms";
+//...
+@NgModule({
+//...
+  imports: [ReactiveFormsModule],
+})
+```
+### Typed Reactive formos
+Naudojama pridedant prie modulio `ReactiveFormsModule`.
+```ts
+import { ReactiveFormsModule } from "@angular/forms";
+//...
+@NgModule({
+//...
+  imports: [ReactiveFormsModule],
+})
+```
