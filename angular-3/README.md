@@ -23,6 +23,9 @@ import { FormsModule } from "@angular/forms";
 ```
 
 ### Untyped Reactive formos
+Template-driven formos yra labai lanksčios, tačiau jų prisirišimas prie HTML template reiškia, kad Typescript komponento kode sunku suprasti, kas vyksta.
+Reactive formos sprendžia šią problemą, leisdamos visą formą, kartu su validatoriais ir duomenų modeliu sukurti Typescript kode ir HTML tik "prijungti" elementus prie formos modelio.
+
 Naudojama pridedant prie modulio `ReactiveFormsModule`.
 ```ts
 import { ReactiveFormsModule } from "@angular/forms";
@@ -33,12 +36,4 @@ import { ReactiveFormsModule } from "@angular/forms";
 })
 ```
 ### Typed Reactive formos
-Naudojama pridedant prie modulio `ReactiveFormsModule`.
-```ts
-import { ReactiveFormsModule } from "@angular/forms";
-//...
-@NgModule({
-//...
-  imports: [ReactiveFormsModule],
-})
-```
+Iki Angular 14, Reactive formos buvo "Untyped". Pati forma neturėjo apibrėžto duomenų modelio, taigi tikrinant bei validuojant duomenis reikėjo rašyti papildomą kodą, kuris "užtikrintų", kad duomenys egzistuoja.
