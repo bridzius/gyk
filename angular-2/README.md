@@ -399,5 +399,9 @@ export class VardaiService {
 
 ## Routing - https://angular.io/guide/routing-overview
 
-## Namų darbai - IMDB Aplikacija - https://github.com/minijus/gyk-routing
+Route'inimas leidžia naviguoti tarp puslapių Angular aplikacijoje. Nors Angular yra "Single Page Application" - vartotojui siekiama sukurti "puslapiavimo" įvaizdį, kur puslapio pasikeitimas yra atvaizduojamas URL, neperkraunant puslapio.
+
+## Namų darbai
+IMDB Aplikacija - https://github.com/minijus/gyk-routing
+Tolesnėse paskaitose naudosime IMDB aplikaciją kaip pavyzdį.
 
