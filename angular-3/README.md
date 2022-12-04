@@ -205,6 +205,6 @@ export class FormComponent {
 
 ## Užduotis
 
-## Pavyzdys
+Pridėsime filmų informaciją iš `https://api.themoviedb.org` ir sukursime formą, kuri leis mums tą informaciją gauti.
 
-https://github.com/IndirasM/gyk-routing/tree/forms
+Link: https://github.com/bridzius/gyk-forms-intro
