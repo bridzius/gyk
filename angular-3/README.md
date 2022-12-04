@@ -182,6 +182,29 @@ export class FormComponent {
 
 Dokumentacija: https://angular.io/guide/reactive-forms#using-the-formbuilder-service-to-generate-controls
 
+Angular taip pat suteikia `FormBuilder`, kuris dar labiau palengvina reactive formų kūrimą, sutelkdamas visus skirtingus formų objektus į vieną, patogų naudoti, servisą. Pakeisti prieš tai naudotą formą į `FormBuilder` labai paprasta:
+
+```ts
+//form.component.ts
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+//...
+export class FormComponent {
+  asmuoForm: FormGroup;
+  constructor(fb: FormBuilder) {
+    this.asmuoForm = fb.group({
+      vardas: ["", [Validators.required]], //formbuilder.group parametrai automatiškai yra formcontrol.
+      amzius: [18, [Validators.min(1)]],
+    });
+  }
+
+  onSubmit() {
+    console.log(this.asmuoForm.value);
+  }
+}
+```
+
+## Užduotis
+
 ## Pavyzdys
 
 https://github.com/IndirasM/gyk-routing/tree/forms
