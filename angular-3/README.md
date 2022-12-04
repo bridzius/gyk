@@ -104,7 +104,7 @@ HTML forma, naudojant `ngModel` ir prieš tai sukurtą modelį atrodytų taip:
 </form>
 ```
 
-### Reactive formos -
+### Reactive formos
 
 Dokumentacija: https://angular.io/guide/reactive-forms
 
@@ -122,13 +122,65 @@ import { ReactiveFormsModule } from "@angular/forms";
 })
 ```
 
-#### FormBuilder
+#### Reactive formos struktūra
 
-Dokumentacija: https://angular.io/guide/reactive-forms#using-the-formbuilder-service-to-generate-controls
+Reactive forma, užuot pernaudojus HTML formos elementus, leidžia visą formą aprašyti Typescript kode ir tada tik "prijungti" HTML `<form>` bei `<input>` elementus, kurie skirti tik gauti reikšmes. Reactive formos sudedamos iš `FormControl` elementų (vienas input) ir grupuojamos į `FormGroup` (viena forma), kurios gali būti `FormArray` (kelių formų masyvas) dalis.
+
+Aprašykime savo `Asmuo` duomenų modelį kaip formą:
+
+```ts
+//form.component.ts
+import { FormControl, FormGroup } from "@angular/forms";
+//...
+export class FormComponent {
+  asmuoForm: FormGroup = new FormGroup({
+    vardas: new FormControl(""),
+    amzius: new FormControl(18),
+  }); //nurodome pirmines formos reikšmes.
+
+  onSubmit() {
+    console.log(this.asmuoForm.value); //Atspausdiname dabartinę formos reikšmę į konsolę kai submittiname.
+  }
+}
+```
+
+HTML kode template irgi pasikeis, kadangi dings visi template-driven atributai (kartu ir validatoriai). Reactive formos naudoja `formGroup` ir `formControlName` atributus, norint duoti HTML formos kontrolę Angular'ui:
+
+```html
+<!-- FormGroup priskiriama per 'formGroup' atributą -->
+<form (ngSubmit)="onSubmit()" [formGroup]="asmuoForm">
+  <input type="text" placeholder="Įrašykite vardą" formControlName="vardas" />
+  <!-- formControlName priskiria FormControl parametrą, kuris egzistuoja FormGroup viduje -->
+  <input type="number" placeholder="Įrašykite amžių" formControlName="amzius" />
+  <button type="submit">Išsiųsti</button>
+</form>
+```
 
 #### Validators
 
 Dokumentacija: https://angular.io/guide/form-validation#validating-input-in-reactive-forms
+
+Kaip pastebėjote, šiuo metu formoje taip pat yra dingusi validacija, kadangi ištrynėme HTML atributus, kurie ją atlieka. Reactive formose validacija yra aprašoma Typescript kode `Validators` pagalba. Validatoriai yra paduodami į `FormControl` arba `FormGroup`, kai jie yra aprašomi. `required` ir `min` validatorius, turėtus HTML, galime aprašyti taip:
+
+```ts
+//form.component.ts
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+//...
+export class FormComponent {
+  asmuoForm: FormGroup = new FormGroup({
+    vardas: new FormControl("", [Validators.required]),
+    amzius: new FormControl(18, [Validators.min(1)]),
+  });
+
+  onSubmit() {
+    console.log(this.asmuoForm.value);
+  }
+}
+```
+
+#### FormBuilder
+
+Dokumentacija: https://angular.io/guide/reactive-forms#using-the-formbuilder-service-to-generate-controls
 
 ## Pavyzdys
 
